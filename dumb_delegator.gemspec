@@ -18,5 +18,4 @@ Gem::Specification.new do |gem|
   gem.version       = DumbDelegator::VERSION
 
   gem.add_development_dependency 'rspec', '~>2.9.0'
-  gem.add_development_dependency 'rr', '~>1.0.4'
 end
