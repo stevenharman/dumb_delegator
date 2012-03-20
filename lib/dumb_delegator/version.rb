@@ -1,3 +1,3 @@
-class DumbDelegator < BasicObject
+class DumbDelegator < ::BasicObject
   VERSION = "0.0.1"
 end

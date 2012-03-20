@@ -107,4 +107,4 @@ Or install it yourself as:
 
 ## Contribution Ideas/Needs
 
-1. Ruby 1.8 support
+1. Ruby 1.8 support (use the `blankslate` gem?)

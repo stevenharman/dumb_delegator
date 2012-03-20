@@ -86,7 +86,7 @@ describe DumbDelegator do
   end
 
   describe "#dup" do
-    it "returns a shallow of itself, the delegator (not the underlying object)" do
+    it "returns a shallow of itself, the delegator (not the underlying object)", :objectspace => true do
       dupped = subject.dup
 
       ObjectSpace.each_object(DumbDelegator).map(&:__id__).should include dupped.__id__
@@ -94,7 +94,7 @@ describe DumbDelegator do
   end
 
   describe "#clone" do
-    it "returns a shallow of itself, the delegator (not the underlying object)" do
+    it "returns a shallow of itself, the delegator (not the underlying object)", :objectspace => true do
       cloned = subject.clone
 
       ObjectSpace.each_object(DumbDelegator).map(&:__id__).should include cloned.__id__
@@ -104,7 +104,7 @@ describe DumbDelegator do
   describe "marshaling" do
     let(:target) { Object.new }
 
-    it "marshals and unmarshals itself, the delegator (not the underlying object)" do
+    it "marshals and unmarshals itself, the delegator (not the underlying object)", :objectspace => true do
       marshaled = Marshal.dump(subject)
       unmarshaled = Marshal.load(marshaled)
 
