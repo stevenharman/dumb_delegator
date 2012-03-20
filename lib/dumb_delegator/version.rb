@@ -1,3 +1,3 @@
-module DumbDelegator
+class DumbDelegator
   VERSION = "0.0.1"
 end
