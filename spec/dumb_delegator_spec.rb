@@ -31,7 +31,14 @@ describe DumbDelegator do
     }.to raise_error(NoMethodError)
   end
 
-  it "responds to methods defined by child classes that add behavior"
+  it "responds to methods defined by child classes that add behavior" do
+    target.should_receive(:foo).never
+    def subject.foo
+      "bar"
+    end
+
+    subject.foo
+  end
 
   it "delegates methods defined on Object" do
     target.should_receive(:class)
