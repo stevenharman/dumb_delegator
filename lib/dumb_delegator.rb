@@ -5,6 +5,12 @@ class DumbDelegator < BasicObject
     undef_method method
   end
 
+  kernel = ::Kernel.dup
+  (kernel.instance_methods - [:dup, :clone]).each do |method|
+    kernel.__send__ :undef_method, method
+  end
+  include kernel
+
   def initialize(target)
     __setobj__(target)
   end
@@ -23,5 +29,15 @@ class DumbDelegator < BasicObject
 
   def __setobj__(obj)
     @__dumb_target__ = obj
+  end
+
+  private
+
+  def initialize_dup(obj)
+    __setobj__(obj.__getobj__.dup)
+  end
+
+  def initialize_clone(obj)
+    __setobj__(obj.__getobj__.clone)
   end
 end

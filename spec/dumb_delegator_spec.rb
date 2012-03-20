@@ -85,6 +85,22 @@ describe DumbDelegator do
     subject.instance_exec { true }
   end
 
+  describe "#dup" do
+    it "returns a shallow of itself, the delegator (not the underlying object)" do
+      dupped = subject.dup
+
+      ObjectSpace.each_object(DumbDelegator).map(&:__id__).should include dupped.__id__
+    end
+  end
+
+  describe "#clone" do
+    it "returns a shallow of itself, the delegator (not the underlying object)" do
+      cloned = subject.clone
+
+      ObjectSpace.each_object(DumbDelegator).map(&:__id__).should include cloned.__id__
+    end
+  end
+
   describe "#__getobj__" do
     it "returns the target object" do
       subject.__getobj__.should equal target
