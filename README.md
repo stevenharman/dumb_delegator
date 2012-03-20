@@ -4,9 +4,9 @@ Ruby provides the `delegate` standard library. However, we found that it is
 not appropriate for many use cases that require nearly every call to be
 proxied.
 
-For instance, Rails uses `class` and `eql?` to introspect on model classes
-when generating forms and url helpers. These methods are not properly
-forwarded when using `Delegator` or `SimpleDelegator`.
+For instance, Rails uses `#class` and `#instance_of?` to introspect on model
+classes when generating forms and URL helpers. These methods are not forwarded
+when using `Delegator` or `SimpleDelegator`.
 
 ```ruby
 require 'delegate'
@@ -18,7 +18,7 @@ end
 o = MyAwesomeClass.new
 d = SimpleDelegator.new(o)
 
-d.class # => SimpleDelegator
+d.class                # => SimpleDelegator
 d.is_a? MyAwesomeClass # => false
 ```
 
@@ -34,7 +34,7 @@ end
 o = MyAwesomeClass.new
 d = DumbDelegator.new(o)
 
-d.class # => MyAwesomeClass
+d.class                # => MyAwesomeClass
 d.is_a? MyAwesomeClass # => true
 ```
 
@@ -104,3 +104,7 @@ Or install it yourself as:
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Contribution Ideas/Needs
+
+1. Ruby 1.8 support
