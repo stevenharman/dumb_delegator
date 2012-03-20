@@ -50,6 +50,36 @@ describe DumbDelegator do
     subject.print
   end
 
+  it "delegates !" do
+    target.should_receive(:!)
+    !subject
+  end
+
+  it "delegates !=" do
+    target.should_receive(:!=)
+    subject != 1
+  end
+
+  it "delegates ==" do
+    target.should_receive(:==)
+    subject == 1
+  end
+
+  it "delegates ==" do
+    target.should_receive(:==)
+    subject == 1
+  end
+
+  it "delegates instance_eval" do
+    target.should_receive(:instance_eval)
+    subject.instance_eval { true }
+  end
+
+  it "delegates instance_exec" do
+    target.should_receive(:instance_exec)
+    subject.instance_exec { true }
+  end
+
   describe "#__getobj__" do
     it "returns the target object" do
       subject.__getobj__.should equal target
