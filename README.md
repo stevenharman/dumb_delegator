@@ -1,5 +1,7 @@
 # DumbDelegator
 
+[![Build Status](https://secure.travis-ci.org/highgroove/dumb_delegator.png)](http://travis-ci.org/highgroove/dumb_delegator)
+
 Ruby provides the `delegate` standard library. However, we found that it is
 not appropriate for many use cases that require nearly every call to be
 proxied.
