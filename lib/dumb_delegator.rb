@@ -11,8 +11,15 @@ class DumbDelegator < ::BasicObject
   end
   include kernel
 
+  NON_DELEGATED_METHODS = [:equal?, :__id__, :__send__, :dup, :clone, :__getobj__, :__setobj__,
+                           :marshal_dump, :marshal_load, :respond_to?].freeze
+
   def initialize(target)
     __setobj__(target)
+  end
+
+  def respond_to?(method)
+    __getobj__.respond_to?(method) || NON_DELEGATED_METHODS.include?(method.to_sym)
   end
 
   def method_missing(method, *args, &block)

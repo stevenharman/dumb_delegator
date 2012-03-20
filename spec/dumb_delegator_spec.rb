@@ -112,6 +112,14 @@ describe DumbDelegator do
     end
   end
 
+  describe "#respond_to?" do
+    [:equal?, :__id__, :__send__, :dup, :clone, :__getobj__, :__setobj__, :marshal_dump, :marshal_load, :respond_to?].each do |method|
+      it "responds to #{method}" do
+        subject.respond_to?(method).should be_true
+      end
+    end
+  end
+
   describe "#__getobj__" do
     it "returns the target object" do
       subject.__getobj__.should equal target
