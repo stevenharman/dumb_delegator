@@ -101,6 +101,17 @@ describe DumbDelegator do
     end
   end
 
+  describe "marshaling" do
+    let(:target) { Object.new }
+
+    it "marshals and unmarshals itself, the delegator (not the underlying object)" do
+      marshaled = Marshal.dump(subject)
+      unmarshaled = Marshal.load(marshaled)
+
+      ObjectSpace.each_object(DumbDelegator).map(&:__id__).should include unmarshaled.__id__
+    end
+  end
+
   describe "#__getobj__" do
     it "returns the target object" do
       subject.__getobj__.should equal target

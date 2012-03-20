@@ -31,6 +31,21 @@ class DumbDelegator < BasicObject
     @__dumb_target__ = obj
   end
 
+  def marshal_dump
+    [
+      :__v1__,
+      __getobj__
+    ]
+  end
+
+  def marshal_load(data)
+    version, obj = data
+    case version
+    when :__v1__
+      __setobj__(obj)
+    end
+  end
+
   private
 
   def initialize_dup(obj)
