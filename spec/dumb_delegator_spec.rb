@@ -31,6 +31,18 @@ describe DumbDelegator do
     }.to raise_error(NoMethodError)
   end
 
+  it "responds to methods defined by child classes that add behavior"
+
+  it "delegates methods defined on Object" do
+    target.should_receive(:class)
+    subject.class
+  end
+
+  it "delegates methods defined on Kernel" do
+    target.should_receive(:print)
+    subject.print
+  end
+
   describe "#__getobj__" do
     it "returns the target object" do
       subject.__getobj__.should equal target

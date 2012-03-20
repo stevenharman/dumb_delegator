@@ -1,6 +1,6 @@
 require "dumb_delegator/version"
 
-class DumbDelegator
+class DumbDelegator < BasicObject
   def initialize(target)
     __setobj__(target)
   end
