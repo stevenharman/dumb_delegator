@@ -45,6 +45,11 @@ describe DumbDelegator do
     subject.class
   end
 
+  it "delegates is_a?" do
+    target.should_receive(:is_a?)
+    subject.is_a?
+  end
+
   it "delegates methods defined on Kernel" do
     target.should_receive(:print)
     subject.print
