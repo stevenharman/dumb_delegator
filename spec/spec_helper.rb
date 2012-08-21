@@ -5,6 +5,9 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'simplecov'
+SimpleCov.start
+
 require File.expand_path('../lib/dumb_delegator', File.dirname(__FILE__))
 
 require 'pry'
