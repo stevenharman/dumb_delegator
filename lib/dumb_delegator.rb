@@ -1,4 +1,3 @@
-require "set"
 require "dumb_delegator/version"
 
 class DumbDelegator < ::BasicObject
@@ -12,9 +11,8 @@ class DumbDelegator < ::BasicObject
   end
   include kernel
 
-  NON_DELEGATED_METHODS = ::Set.new([:equal?, :__id__, :__send__, :dup, :clone, :__getobj__,
-                                     :__setobj__, :marshal_dump, :marshal_load,
-                                     :respond_to?]).freeze
+  NON_DELEGATED_METHODS = [:equal?, :__id__, :__send__, :dup, :clone, :__getobj__, :__setobj__,
+                           :marshal_dump, :marshal_load, :respond_to?].freeze
 
   def initialize(target)
     __setobj__(target)
