@@ -1,7 +1,7 @@
 # DumbDelegator
 
-[![Build Status](https://secure.travis-ci.org/highgroove/dumb_delegator.png)](http://travis-ci.org/highgroove/dumb_delegator)
-[![Dependency Status](https://gemnasium.com/highgroove/dumb_delegator.png)](https://gemnasium.com/highgroove/dumb_delegator)
+[![Build Status](https://secure.travis-ci.org/stevenharman/dumb_delegator.png)](http://travis-ci.org/stevenharman/dumb_delegator)
+[![Dependency Status](https://gemnasium.com/stevenharman/dumb_delegator.png)](https://gemnasium.com/stevenharman/dumb_delegator)
 
 Ruby provides the `delegate` standard library. However, we found that it is
 not appropriate for many use cases that require nearly every call to be
