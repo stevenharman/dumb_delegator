@@ -118,6 +118,14 @@ describe DumbDelegator do
         subject.respond_to?(method).should be_true
       end
     end
+
+    context "subclasses of DumbDelegator" do
+      subject { Class.new(DumbDelegator) { def foobar; end }.new([]) }
+
+      it "respond to methods defined on the subclass" do
+        subject.respond_to?(:foobar).should be_true
+      end
+    end
   end
 
   describe "#__getobj__" do

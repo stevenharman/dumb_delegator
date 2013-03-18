@@ -7,21 +7,17 @@ class DumbDelegator < ::BasicObject
   end
 
   kernel = ::Kernel.dup
-  (kernel.instance_methods - [:dup, :clone]).each do |method|
+  (kernel.instance_methods - [:dup, :clone, :respond_to?]).each do |method|
     kernel.__send__ :undef_method, method
   end
   include kernel
-
-  NON_DELEGATED_METHODS = ::Set.new([:equal?, :__id__, :__send__, :dup, :clone, :__getobj__,
-                                     :__setobj__, :marshal_dump, :marshal_load,
-                                     :respond_to?]).freeze
 
   def initialize(target)
     __setobj__(target)
   end
 
   def respond_to?(method)
-    __getobj__.respond_to?(method) || NON_DELEGATED_METHODS.include?(method.to_sym)
+    __getobj__.respond_to?(method) || super
   end
 
   def method_missing(method, *args, &block)
