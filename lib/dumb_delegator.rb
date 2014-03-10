@@ -16,7 +16,7 @@ class DumbDelegator < ::BasicObject
     __setobj__(target)
   end
 
-  def respond_to?(method)
+  def respond_to?(method, include_all=false)
     __getobj__.respond_to?(method) || super
   end
 
