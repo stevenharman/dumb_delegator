@@ -1,7 +1,9 @@
 # DumbDelegator
 
-[![Build Status](https://secure.travis-ci.org/stevenharman/dumb_delegator.png)](http://travis-ci.org/stevenharman/dumb_delegator)
-[![Dependency Status](https://gemnasium.com/stevenharman/dumb_delegator.png)](https://gemnasium.com/stevenharman/dumb_delegator)
+[![Gem Version](http://img.shields.io/gem/v/dumb_delegator.svg)](https://rubygems.org/gems/dumb_delegator)
+[![Build Status](https://img.shields.io/travis/stevenharman/dumb_delegator.svg)](https://travis-ci.org/stevenharman/dumb_delegator)
+[![Code Climate](http://img.shields.io/codeclimate/github/stevenharman/dumb_delegator.svg)](https://codeclimate.com/github/stevenharman/dumb_delegator)
+[![Dependency Status](https://img.shields.io/gemnasium/stevenharman/dumb_delegator.svg)](https://gemnasium.com/stevenharman/dumb_delegator)
 
 Ruby provides the `delegate` standard library. However, we found that it is not
 appropriate for many use cases that require nearly every call to be proxied.
