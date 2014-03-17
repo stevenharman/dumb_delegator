@@ -1,28 +1,28 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe DumbDelegator do
   subject(:dummy) { described_class.new(target) }
   let(:target) { double }
 
-  it "delegates to the target object" do
+  it 'delegates to the target object' do
     expect(target).to receive(:foo)
     dummy.foo
   end
 
-  it "delegates to the target object with arguments" do
+  it 'delegates to the target object with arguments' do
     expect(target).to receive(:foo).with(:bar)
 
     dummy.foo(:bar)
   end
 
-  it "delegates to the target object with a block" do
-    bar_block = proc { "bar" }
+  it 'delegates to the target object with a block' do
+    bar_block = proc { 'bar' }
     expect(target).to receive(:foo) { |&block| expect(block).to eq(bar_block) }
 
     dummy.foo(&bar_block)
   end
 
-  it "does not delegate if the target does not respond_to? the message" do
+  it 'does not delegate if the target does not respond_to? the message' do
     allow(target).to receive(:foo)
     allow(target).to receive(:respond_to?).with(:foo).and_return(false)
 
@@ -31,80 +31,80 @@ describe DumbDelegator do
     }.to raise_error(NoMethodError)
   end
 
-  it "responds to methods defined by child classes that add behavior" do
+  it 'responds to methods defined by child classes that add behavior' do
     expect(target).to receive(:foo).never
     def dummy.foo
-      "bar"
+      'bar'
     end
 
     dummy.foo
   end
 
-  it "delegates methods defined on Object" do
+  it 'delegates methods defined on Object' do
     expect(target).to receive(:class)
     dummy.class
   end
 
-  it "delegates is_a?" do
+  it 'delegates is_a?' do
     expect(target).to receive(:is_a?)
     dummy.is_a?
   end
 
-  it "delegates methods defined on Kernel" do
+  it 'delegates methods defined on Kernel' do
     expect(target).to receive(:print)
     dummy.print
   end
 
-  it "delegates !" do
+  it 'delegates !' do
     expect(target).to receive(:!)
     !dummy
   end
 
-  it "delegates !=" do
+  it 'delegates !=' do
     expect(target).to receive(:!=)
     dummy != 1
   end
 
-  it "delegates ==" do
+  it 'delegates ==' do
     expect(target).to receive(:==)
     dummy == 1
   end
 
-  it "delegates ==" do
+  it 'delegates ==' do
     expect(target).to receive(:==)
     dummy == 1
   end
 
-  it "delegates instance_eval" do
+  it 'delegates instance_eval' do
     expect(target).to receive(:instance_eval)
     dummy.instance_eval { true }
   end
 
-  it "delegates instance_exec" do
+  it 'delegates instance_exec' do
     expect(target).to receive(:instance_exec)
     dummy.instance_exec { true }
   end
 
-  describe "#dup" do
-    it "returns a shallow of itself, the delegator (not the underlying object)", :objectspace => true do
+  describe '#dup' do
+    it 'returns a shallow of itself, the delegator (not the underlying object)', :objectspace => true do
       dupped = dummy.dup
 
       expect(ObjectSpace.each_object(DumbDelegator).map(&:__id__)).to include dupped.__id__
     end
   end
 
-  describe "#clone" do
-    it "returns a shallow of itself, the delegator (not the underlying object)", :objectspace => true do
+  describe '#clone' do
+    it 'returns a shallow of itself, the delegator (not the underlying object)', :objectspace => true do
       cloned = dummy.clone
 
       expect(ObjectSpace.each_object(DumbDelegator).map(&:__id__)).to include cloned.__id__
     end
   end
 
-  describe "marshaling" do
+  describe 'marshaling' do
     let(:target) { Object.new }
 
-    it "marshals and unmarshals itself, the delegator (not the underlying object)", :objectspace => true do
+    it 'marshals and unmarshals itself, the delegator (not the underlying object)', :objectspace => true do
       marshaled = Marshal.dump(dummy)
       unmarshaled = Marshal.load(marshaled)
 
@@ -112,30 +112,30 @@ describe DumbDelegator do
     end
   end
 
-  describe "#respond_to?" do
+  describe '#respond_to?' do
     [:equal?, :__id__, :__send__, :dup, :clone, :__getobj__, :__setobj__, :marshal_dump, :marshal_load, :respond_to?].each do |method|
       it "responds to #{method}" do
         expect(dummy.respond_to?(method)).to be_true
       end
     end
 
-    context "subclasses of DumbDelegator" do
+    context 'subclasses of DumbDelegator' do
       subject(:dummy) { Class.new(DumbDelegator) { def foobar; end }.new([]) }
 
-      it "respond to methods defined on the subclass" do
+      it 'respond to methods defined on the subclass' do
         expect(dummy.respond_to?(:foobar)).to be_true
       end
     end
   end
 
-  describe "#__getobj__" do
-    it "returns the target object" do
+  describe '#__getobj__' do
+    it 'returns the target object' do
       expect(dummy.__getobj__).to equal target
     end
   end
 
-  describe "#__setobj__" do
-    it "resets the target object to a different object" do
+  describe '#__setobj__' do
+    it 'resets the target object to a different object' do
       expect(target).to receive(:foo).never
 
       new_target = double
@@ -145,11 +145,11 @@ describe DumbDelegator do
       dummy.foo
     end
 
-    it "can't delegate to itself" do
+    it 'cannot delegate to itself' do
       expect {
         dummy.__setobj__(dummy)
         dummy.foo
-      }.to raise_error(ArgumentError, "Delegation to self is not allowed.")
+      }.to raise_error(ArgumentError, 'Delegation to self is not allowed.')
     end
   end
 end

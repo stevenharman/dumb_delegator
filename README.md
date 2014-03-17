@@ -64,7 +64,7 @@ class Coffee
   end
 
   def origin
-    "Colombia"
+    'Colombia'
   end
 end
 

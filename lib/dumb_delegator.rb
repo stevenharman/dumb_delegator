@@ -1,5 +1,5 @@
-require "set"
-require "dumb_delegator/version"
+require 'set'
+require 'dumb_delegator/version'
 
 class DumbDelegator < ::BasicObject
   (::BasicObject.instance_methods - [:equal?, :__id__, :__send__, :method_missing]).each do |method|
@@ -33,7 +33,7 @@ class DumbDelegator < ::BasicObject
   end
 
   def __setobj__(obj)
-    raise ::ArgumentError, "Delegation to self is not allowed." if obj.__id__ == __id__
+    raise ::ArgumentError, 'Delegation to self is not allowed.' if obj.__id__ == __id__
     @__dumb_target__ = obj
   end
 
