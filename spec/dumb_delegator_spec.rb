@@ -144,5 +144,12 @@ describe DumbDelegator do
       dummy.__setobj__(new_target)
       dummy.foo
     end
+    
+    it "can't delegate to itself" do
+      expect {
+        dummy.__setobj__(dummy)
+        dummy.foo
+      }.to raise_error(ArgumentError, "Delegation to self is not allowed.")
+    end
   end
 end
