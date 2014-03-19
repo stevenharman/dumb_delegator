@@ -111,9 +111,33 @@ describe DumbDelegator do
       expect(ObjectSpace.each_object(DumbDelegator).map(&:__id__)).to include unmarshaled.__id__
     end
   end
+  
+  context 'with more reflection' do
+    let(:target) { Class.new(Object) { def baz; end }.new }
+    let(:inner_dummy) { Class.new(DumbDelegator) { def bar; end }.new(target) }
+    subject(:dummy) { Class.new(DumbDelegator) { def foo; end }.new(inner_dummy) }
+    
+    it '#leaf_methods' do
+      expect(dummy.leaf_methods.sort).to eq [:bar, :baz, :foo]
+      expect(inner_dummy.leaf_methods.sort).to eq [:bar, :baz]
+    end
+    
+    it '#wrapper_methods' do
+      expect(dummy.wrapper_methods.sort).to eq [:bar, :foo]
+      expect(inner_dummy.wrapper_methods.sort).to include(:bar)
+    end
+    it '#methods' do
+      method_symbols = [:bar, :baz, :foo, :leaf_methods, :methods, :wrapper_methods]
+      expect((dummy.methods & method_symbols).sort).to eq method_symbols
+      inner_method_symbols = (method_symbols - [:foo]).sort
+      expect((dummy.methods & method_symbols).sort).not_to eq inner_method_symbols
+      expect((inner_dummy.methods & method_symbols).sort).to eq inner_method_symbols      
+    end
+
+  end
 
   describe '#respond_to?' do
-    [:equal?, :__id__, :__send__, :dup, :clone, :__getobj__, :__setobj__, :marshal_dump, :marshal_load, :respond_to?].each do |method|
+    [:equal?, :__id__, :__send__, :dup, :clone, :__getobj__, :__setobj__, :marshal_dump, :marshal_load, :respond_to?, :leaf_methods].each do |method|
       it "responds to #{method}" do
         expect(dummy.respond_to?(method)).to be_true
       end

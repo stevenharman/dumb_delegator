@@ -7,13 +7,27 @@ class DumbDelegator < ::BasicObject
   end
 
   kernel = ::Kernel.dup
-  (kernel.instance_methods - [:dup, :clone, :respond_to?]).each do |method|
+  (kernel.instance_methods - [:dup, :clone, :respond_to?, :methods]).each do |method|
     kernel.__send__ :undef_method, method
   end
   include kernel
+  
+  alias_method :orig_methods, :methods
 
   def initialize(target)
     __setobj__(target)
+  end
+  
+  def methods( regular = true )
+    orig_methods( regular ) + __getobj__.methods( regular )
+  end
+  
+  def leaf_methods
+    (methods - ::DumbDelegator.instance_methods) - __getobj__.class.superclass.instance_methods
+  end
+
+  def wrapper_methods
+    (methods - ::DumbDelegator.instance_methods) - __getobj__.class.instance_methods
   end
 
   def respond_to?(method, include_all=false)
@@ -27,7 +41,7 @@ class DumbDelegator < ::BasicObject
       super
     end
   end
-
+  
   def __getobj__
     @__dumb_target__
   end
