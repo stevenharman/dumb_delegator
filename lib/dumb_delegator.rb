@@ -1,6 +1,16 @@
 require 'set'
 require 'dumb_delegator/version'
 
+# monkey patch #leaf_methods and #wrapper_methods
+class Object
+  def leaf_methods
+    methods - self.class.superclass.instance_methods
+  end
+  def wrapper_methods
+    []
+  end
+end
+
 class DumbDelegator < ::BasicObject
   (::BasicObject.instance_methods - [:equal?, :__id__, :__send__, :method_missing]).each do |method|
     undef_method method

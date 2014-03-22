@@ -120,11 +120,13 @@ describe DumbDelegator do
     it '#leaf_methods' do
       expect(dummy.leaf_methods.sort).to eq [:bar, :baz, :foo]
       expect(inner_dummy.leaf_methods.sort).to eq [:bar, :baz]
+      expect(target.leaf_methods).to eq [:baz]
     end
     
     it '#wrapper_methods' do
       expect(dummy.wrapper_methods.sort).to eq [:bar, :foo]
       expect(inner_dummy.wrapper_methods.sort).to include(:bar)
+      expect(target.wrapper_methods).to eq []
     end
     it '#methods' do
       method_symbols = [:bar, :baz, :foo, :leaf_methods, :methods, :wrapper_methods]
