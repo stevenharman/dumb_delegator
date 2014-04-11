@@ -124,6 +124,16 @@ describe DumbDelegator do
       expect( Whatever.===(whatever_wrapped)).to eq true
     end
     
+    it '#inspect' do
+      class MyClass
+        def inspect
+          'my_class_obj'
+        end
+      end
+      my_class_wrapped = DumbDelegator.new( MyClass.new)
+      expect(my_class_wrapped.inspect).to eq 'DumbDelegator(my_class_obj)'
+    end
+    
     it '#leaf_methods' do
       expect(dummy.leaf_methods.sort).to eq [:bar, :baz, :foo]
       expect(inner_dummy.leaf_methods.sort).to eq [:bar, :baz]

@@ -45,6 +45,10 @@ class DumbDelegator < ::BasicObject
   def wrapper_methods
     (methods - ::DumbDelegator.instance_methods) - __getobj__.class.instance_methods
   end
+  
+  def inspect
+    "DumbDelegator(#{__getobj__.inspect})"
+  end
 
   def respond_to?(method, include_all=false)
     __getobj__.respond_to?(method) || super
