@@ -11,6 +11,12 @@ class Object
   end
 end
 
+class Module
+  def ===(arg)
+    arg.kind_of?(self)
+  end
+end
+
 class DumbDelegator < ::BasicObject
   (::BasicObject.instance_methods - [:equal?, :__id__, :__send__, :method_missing]).each do |method|
     undef_method method

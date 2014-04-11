@@ -71,8 +71,8 @@ describe DumbDelegator do
   end
 
   it 'delegates ==' do
-    expect(target).to receive(:==)
-    dummy == 1
+    expect(target).to receive(:===)
+    dummy === 1
   end
 
   it 'delegates instance_eval' do
@@ -116,6 +116,13 @@ describe DumbDelegator do
     let(:target) { Class.new(Object) { def baz; end }.new }
     let(:inner_dummy) { Class.new(DumbDelegator) { def bar; end }.new(target) }
     subject(:dummy) { Class.new(DumbDelegator) { def foo; end }.new(inner_dummy) }
+    
+    it 'works with case' do
+      class Whatever
+      end
+      whatever_wrapped = DumbDelegator.new( Whatever.new )
+      expect( Whatever.===(whatever_wrapped)).to eq true
+    end
     
     it '#leaf_methods' do
       expect(dummy.leaf_methods.sort).to eq [:bar, :baz, :foo]
