@@ -1,4 +1,3 @@
-require 'set'
 require 'dumb_delegator/version'
 
 class DumbDelegator < ::BasicObject
