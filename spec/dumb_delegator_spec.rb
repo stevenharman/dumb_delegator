@@ -115,7 +115,7 @@ describe DumbDelegator do
   describe '#respond_to?' do
     [:equal?, :__id__, :__send__, :dup, :clone, :__getobj__, :__setobj__, :marshal_dump, :marshal_load, :respond_to?].each do |method|
       it "responds to #{method}" do
-        expect(dummy.respond_to?(method)).to be_true
+        expect(dummy.respond_to?(method)).to be true
       end
     end
 
@@ -123,7 +123,7 @@ describe DumbDelegator do
       subject(:dummy) { Class.new(DumbDelegator) { def foobar; end }.new([]) }
 
       it 'respond to methods defined on the subclass' do
-        expect(dummy.respond_to?(:foobar)).to be_true
+        expect(dummy.respond_to?(:foobar)).to be true
       end
     end
   end
