@@ -6,7 +6,7 @@ class DumbDelegator < ::BasicObject
   end
 
   kernel = ::Kernel.dup
-  (kernel.instance_methods - [:dup, :clone, :respond_to?]).each do |method|
+  (kernel.instance_methods - [:dup, :clone, :respond_to?, :object_id]).each do |method|
     kernel.__send__ :undef_method, method
   end
   include kernel
