@@ -7,3 +7,7 @@ rvm:
   - 2.1.1
   - jruby-19mode
   - rbx
+  - rbx-2
+addons:
+  code_climate:
+    repo_token: aa3e0e1258e480f3446dd626e825c0a93153fce83ee0cc2f007096546389c882

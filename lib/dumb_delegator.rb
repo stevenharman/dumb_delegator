@@ -1,4 +1,3 @@
-require 'set'
 require 'dumb_delegator/version'
 
 # monkey patch #leaf_methods and #wrapper_methods
@@ -23,7 +22,7 @@ class DumbDelegator < ::BasicObject
   end
 
   kernel = ::Kernel.dup
-  (kernel.instance_methods - [:dup, :clone, :respond_to?, :methods]).each do |method|
+  (kernel.instance_methods - [:dup, :clone, :respond_to?, :methods, :object_id]).each do |method|
     kernel.__send__ :undef_method, method
   end
   include kernel

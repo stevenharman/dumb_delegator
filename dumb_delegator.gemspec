@@ -11,13 +11,12 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'https://github.com/stevenharman/dumb_delegator'
 
   gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = 'dumb_delegator'
   gem.require_paths = ['lib']
   gem.version       = DumbDelegator::VERSION
 
-  gem.add_development_dependency 'rspec', '~>2.14'
   gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rake', '~> 10.0'
+  gem.add_development_dependency 'rspec', '~>2.14'
 end
