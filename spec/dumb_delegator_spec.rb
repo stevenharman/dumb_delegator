@@ -70,7 +70,7 @@ describe DumbDelegator do
     dummy == 1
   end
 
-  it 'delegates ==' do
+  it 'delegates ===' do
     expect(target).to receive(:===)
     dummy === 1
   end
