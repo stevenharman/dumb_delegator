@@ -85,6 +85,12 @@ describe DumbDelegator do
     dummy.instance_exec { true }
   end
 
+  it 'does not interfere with constant lookup' do
+    dummy = Dummy.new(target)
+
+    expect(dummy.foo).to eq('baz')
+  end
+
   describe '#dup' do
     it 'returns a shallow of itself, the delegator (not the underlying object)', :objectspace => true do
       dupped = dummy.dup
@@ -151,5 +157,17 @@ describe DumbDelegator do
         dummy.foo
       }.to raise_error(ArgumentError, 'Delegation to self is not allowed.')
     end
+  end
+end
+
+class DummyForConstLookup
+  def self.foo
+    'baz'
+  end
+end
+
+class Dummy < DumbDelegator
+  def foo
+    DummyForConstLookup.foo
   end
 end
