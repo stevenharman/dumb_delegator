@@ -113,9 +113,26 @@ describe DumbDelegator do
   end
   
   context 'with more reflection' do
-    let(:target) { Class.new(Object) { def baz; end }.new }
-    let(:inner_dummy) { Class.new(DumbDelegator) { def bar; end }.new(target) }
-    subject(:dummy) { Class.new(DumbDelegator) { def foo; end }.new(inner_dummy) }
+    let(:target_class) { Class.new(Object) { def baz; end }}
+    let(:target) { target_class.new }
+    let(:inner_dummy_class) { Class.new(DumbDelegator) { def bar; end } }
+    let(:inner_dummy) { inner_dummy_class.new(target) }
+    let(:dummy_class) { Class.new(DumbDelegator) { def foo; end } }
+    subject(:dummy) { dummy_class.new(inner_dummy) }
+    
+    context 'with #method' do
+    
+      it 'should return a method object for any of its methods' do
+        expect( dummy.method( :foo ) ).to be_instance_of( Method )
+      end
+      
+      it 'should return a method object for any of its targets methods' do
+        expect( inner_dummy.method( :baz ) ).to be_instance_of( Method )
+        expect( dummy.method( :baz ) ).to be_instance_of( Method )
+        expect( dummy.method( :bar ) ).to be_instance_of( Method )
+      end
+    
+    end
     
     it 'works with case' do
       class Whatever
