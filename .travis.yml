@@ -2,11 +2,13 @@ language: ruby
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.4
+  - 2.1.8
+  - 2.2.4
+  - 2.3.0
   - jruby-19mode
-  - rbx-2
   - rbx
   - rbx-2
+sudo: false
 addons:
   code_climate:
     repo_token: aa3e0e1258e480f3446dd626e825c0a93153fce83ee0cc2f007096546389c882
