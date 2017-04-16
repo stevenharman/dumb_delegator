@@ -51,6 +51,10 @@ class DumbDelegator < ::BasicObject
     end
   end
 
+  def self.const_missing(name)
+    ::Object.const_get(name)
+  end
+
   private
 
   def initialize_dup(obj)
