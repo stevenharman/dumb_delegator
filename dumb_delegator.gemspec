@@ -4,7 +4,7 @@ require File.expand_path('../lib/dumb_delegator/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name = "dumb_delegator"
   gem.version = DumbDelegator::VERSION
-  gem.required_ruby_version = ">= 1.9.3"
+  gem.required_ruby_version = ">= 2.4.0"
   gem.authors       = ['Andy Lindeman', 'Steven Harman']
   gem.email         = ['alindeman@gmail.com', 'steven@harmanly.com']
   gem.description   = %q{Delegator class that delegates ALL the things}

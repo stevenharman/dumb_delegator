@@ -4,20 +4,14 @@ env:
   global:
     - CC_TEST_REPORTER_ID=de7062a4090ce5638b515a2cf9f2ab619de3e3f4ff439dc6cdad025c7a8d6b76
 rvm:
-  - 1.9.3
-  - 2.0
-  - 2.1
-  - 2.2
-  - 2.3
   - 2.4
   - 2.5
   - 2.6
   - 2.7
-  - jruby-19mode
   - jruby
 cache: bundler
 before_install:
-  - gem update --system --conservative || (gem i "rubygems-update:~>2.7" --no-document && update_rubygems) # see: https://github.com/rubygems/rubygems/issues/2534#issuecomment-448843746
+  - gem update --system --conservative
   - gem update bundler --conservative
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
