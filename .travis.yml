@@ -1,14 +1,28 @@
 language: ruby
+dist: xenial
+env:
+  global:
+    - CC_TEST_REPORTER_ID=de7062a4090ce5638b515a2cf9f2ab619de3e3f4ff439dc6cdad025c7a8d6b76
 rvm:
   - 1.9.3
-  - 2.0.0
-  - 2.1.8
-  - 2.2.4
-  - 2.3.0
+  - 2.0
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
   - jruby-19mode
-  - rbx
-  - rbx-2
-sudo: false
-addons:
-  code_climate:
-    repo_token: aa3e0e1258e480f3446dd626e825c0a93153fce83ee0cc2f007096546389c882
+cache: bundler
+before_install:
+  - gem update --system
+  - gem install bundler
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - bundle exec rspec
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
