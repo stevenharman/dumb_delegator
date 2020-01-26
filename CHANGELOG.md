@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Changed
   - Require Ruby >= 2.4. We may still work with older Rubies, but no promises.
 
+### Added
+  - Optional support for using a DumbDelegator instance in a `case` statement. [[12](https://github.com/stevenharman/dumb_delegator/pull/12)]
+
 ## [0.8.1] 2020-01-25
 ### Changed
   - Explicitly Require Ruby >= 1.9.3

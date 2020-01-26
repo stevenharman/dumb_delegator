@@ -79,10 +79,59 @@ class Sugar < DumbDelegator
 end
 
 coffee = Coffee.new
-Sugar.new(Milk.new(coffee)).cost   #=> 2.6
-Sugar.new(Sugar.new(coffee)).cost  #=> 2.4
-Milk.new(coffee).origin            #=> Colombia
-Sugar.new(Milk.new(coffee)).class  #=> Coffee
+Milk.new(coffee).origin           #=> Colombia
+Sugar.new(Sugar.new(coffee)).cost #=> 2.4
+
+cup_o_coffee = Sugar.new(Milk.new(coffee))
+cup_o_coffee.cost                 #=> 2.6
+cup_o_coffee.class                #=> Coffee
+cup_o_coffee.is_a?(Coffee)        #=> true
+cup_o_coffee.is_a?(Milk)          #=> true
+cup_o_coffee.is_a?(Sugar)         #=> true
+```
+
+### Optional `case` statement support
+
+Instances of `DumbDelegator` will delegate `#===` out of the box.
+Meaning an instance can be used in a `case` statement so long as the `when` clauses rely on instance comparison.
+For example, when using a `case` with a regular expression, range, etc...
+
+It's also common to use Class/Module in the `where` clauses.
+In such usage, it's the Class/Module's `::===` method that gets called, rather than the `#===` method on the `DumbDelegator` instance.
+That means we need to override each Class/Module's `::===` method, or even monkey-patch `::Module::===`.
+
+`DumbDelegator` ships with an optional extension to override a Class/Module's `::===` method.
+But you need to extend each Class/Module you use in a `where` clause.
+
+```ruby
+def try_a_case(thing)
+  case thing
+  when MyAwesomeClass
+    "thing is a MyAwesomeClass."
+  when DumbDelegator
+    "thing is a DumbDelegator."
+  else
+    "Bad. This is bad."
+  end
+end
+
+target = MyAwesomeClass.new
+dummy = DumbDelegator.new(target)
+
+try_a_case(dummy) #=> thing is a DumbDelegator.
+
+MyAwesomeClass.extend(DumbDelegator::TripleEqualExt)
+
+try_a_case(dummy) #=> thing is a MyAwesomeClass.
+```
+
+#### Overriding `Module::===`
+If necessary, you could also override the base `Module::===`, though that's pretty invasive.
+
+🐲 _There be dragons!_ 🐉
+
+```ruby
+::Module.extend(DumbDelegator::TripleEqualExt)
 ```
 
 ## Installation
