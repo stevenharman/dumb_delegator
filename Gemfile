@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem "simplecov", :group => :test, :require => nil
+gem "pry-byebug", group: [:development, :test], platforms: [:ruby]
