@@ -1,4 +1,4 @@
-if ENV["CC_TEST_REPORTER_ID"]
+if ENV["CC_TEST_REPORTER_ID"] || ENV["COVERAGE"]
   require "simplecov"
   SimpleCov.start
 end
