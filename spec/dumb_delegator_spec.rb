@@ -81,14 +81,18 @@ RSpec.describe DumbDelegator do
   end
 
   it "delegates object equivalence" do
-    expect(dummy).to eql(target)
-    expect(dummy == target).to be true
+    aggregate_failures do
+      expect(dummy).to eql(target)
+      expect(dummy == target).to be true
+    end
   end
 
   it "delegates class checks" do
-    expect(dummy.is_a?(Target)).to be(true)
-    expect(dummy.kind_of?(Target)).to be(true) # rubocop:disable Style/ClassCheck
-    expect(dummy.instance_of?(Target)).to be(true)
+    aggregate_failures do
+      expect(dummy.is_a?(Target)).to be(true)
+      expect(dummy.kind_of?(Target)).to be(true) # rubocop:disable Style/ClassCheck
+      expect(dummy.instance_of?(Target)).to be(true)
+    end
   end
 
   it "delegates ===" do
