@@ -1,13 +1,13 @@
-require 'dumb_delegator/version'
+require "dumb_delegator/version"
 
 class DumbDelegator < ::BasicObject
   (::BasicObject.instance_methods - [:equal?, :__id__, :__send__, :method_missing]).each do |method|
-    undef_method method
+    undef_method(method)
   end
 
   kernel = ::Kernel.dup
   (kernel.instance_methods - [:dup, :clone, :respond_to?, :object_id]).each do |method|
-    kernel.__send__ :undef_method, method
+    kernel.__send__(:undef_method, method)
   end
   include kernel
 
@@ -32,14 +32,14 @@ class DumbDelegator < ::BasicObject
   end
 
   def __setobj__(obj)
-    raise ::ArgumentError, 'Delegation to self is not allowed.' if obj.__id__ == __id__
+    raise ::ArgumentError, "Delegation to self is not allowed." if obj.__id__ == __id__
     @__dumb_target__ = obj
   end
 
   def marshal_dump
     [
       :__v1__,
-      __getobj__
+      __getobj__,
     ]
   end
 
