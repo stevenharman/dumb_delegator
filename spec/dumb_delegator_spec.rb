@@ -1,6 +1,4 @@
-require "spec_helper"
-
-describe DumbDelegator do
+RSpec.describe DumbDelegator do
   subject(:dummy) { Wrapper.new(target) }
   let(:target) { Target.new }
 
@@ -55,8 +53,6 @@ describe DumbDelegator do
   end
 
   it "responds to methods defined by child classes" do
-    expect(target).to receive(:wrapper_method).never
-
     expect(dummy.wrapper_method).to eq("Method only on wrapper.")
   end
 
@@ -159,19 +155,20 @@ describe DumbDelegator do
 
   describe "#__setobj__" do
     it "resets the target object to a different object" do
-      expect(target).to receive(:foo).never
-
-      new_target = double
-      expect(new_target).to receive(:foo)
+      new_target = Target.new.tap do |nt|
+        def nt.a_new_thing
+          true
+        end
+      end
 
       dummy.__setobj__(new_target)
-      dummy.foo
+      expect(dummy.a_new_thing).to be true
     end
 
     it "cannot delegate to itself" do
       expect {
         dummy.__setobj__(dummy)
-        dummy.foo
+        dummy.common_method
       }.to raise_error(ArgumentError, "Delegation to self is not allowed.")
     end
   end
