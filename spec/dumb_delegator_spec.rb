@@ -1,78 +1,103 @@
 require 'spec_helper'
 
 describe DumbDelegator do
-  subject(:dummy) { described_class.new(target) }
-  let(:target) { double }
+  subject(:dummy) { Wrapper.new(target) }
+  let(:target) { Target.new }
 
-  it 'delegates to the target object' do
-    expect(target).to receive(:foo)
-    dummy.foo
+  class Wrapper < DumbDelegator
+    def wrapper_method
+      "Method only on wrapper."
+    end
+
+    def common_method
+      ["Method on wrapper.", super].join(" ")
+    end
   end
 
-  it 'delegates to the target object with arguments' do
-    expect(target).to receive(:foo).with(:bar)
+  class Target
+    def common_method
+      "Method on target."
+    end
 
-    dummy.foo(:bar)
+    def target_method
+      "Method only on target."
+    end
+
+    def query(*args)
+      "queried with #{args}"
+    end
+
+    def with_block(&block)
+      block.call
+    end
   end
 
-  it 'delegates to the target object with a block' do
-    bar_block = proc { 'bar' }
-    expect(target).to receive(:foo) { |&block| expect(block).to eq(bar_block) }
-
-    dummy.foo(&bar_block)
+  it "delegates to the target object" do
+    expect(dummy.target_method).to eq("Method only on target.")
   end
 
-  it 'does not delegate if the target does not respond_to? the message' do
-    allow(target).to receive(:foo)
-    allow(target).to receive(:respond_to?).with(:foo).and_return(false)
+  it "delegates to the target object with arguments" do
+    result = dummy.query("some_key", 42)
 
+    expect(result).to eq(%(queried with ["some_key", 42]))
+  end
+
+  it "delegates to the target object with a block" do
+    result = dummy.with_block { "block called!" }
+
+    expect(result).to eq("block called!")
+  end
+
+  it "errors if the method is not defined on the wrapper nor the target" do
     expect {
-      dummy.foo
+      dummy.no_such_method
     }.to raise_error(NoMethodError)
   end
 
-  it 'responds to methods defined by child classes that add behavior' do
-    expect(target).to receive(:foo).never
-    def dummy.foo
-      'bar'
-    end
+  it "responds to methods defined by child classes" do
+    expect(target).to receive(:wrapper_method).never
 
-    dummy.foo
+    expect(dummy.wrapper_method).to eq("Method only on wrapper.")
   end
 
-  it 'delegates methods defined on Object' do
-    expect(target).to receive(:class)
-    dummy.class
+  it "responds to methods defined by child classes, and can super up to target" do
+    expect(dummy.common_method).to eq("Method on wrapper. Method on target.")
   end
 
-  it 'delegates is_a?' do
-    expect(target).to receive(:is_a?)
-    dummy.is_a?
+  it "delegates methods defined on Object" do
+    expect(dummy.class).to eq(Target)
   end
 
-  it 'delegates methods defined on Kernel' do
-    expect(target).to receive(:print)
-    dummy.print
+  it "delegates methods defined on Kernel" do
+    expect(target).to receive(:nil?)
+    dummy.nil?
   end
 
-  it 'delegates !' do
-    expect(target).to receive(:!)
-    !dummy
+  it "delegates bang (!) operator" do
+    allow(target).to receive(:!) { "bang!" }
+    expect(!dummy).to eq("bang!")
   end
 
-  it 'delegates !=' do
-    expect(target).to receive(:!=)
-    dummy != 1
+  it "delegates object inequivalence" do
+    allow(target).to receive(:!=).and_call_original
+
+    expect(dummy != target).to be false
   end
 
-  it 'delegates ==' do
-    expect(target).to receive(:==)
-    dummy == 1
+  it "delegates object equivalence" do
+    expect(dummy).to eql(target)
+    expect(dummy == target).to be true
   end
 
-  it 'delegates ==' do
-    expect(target).to receive(:==)
-    dummy == 1
+  it "delegates class checks" do
+    expect(dummy.is_a?(Target)).to be(true)
+    expect(dummy.kind_of?(Target)).to be(true) # rubocop:disable Style/ClassCheck
+    expect(dummy.instance_of?(Target)).to be(true)
+  end
+
+  it "delegates ===" do
+    pending("Implement #=== on DumbDelegator")
+    expect(dummy === Target).to be true
   end
 
   it 'delegates instance_eval' do
@@ -119,18 +144,16 @@ describe DumbDelegator do
       end
     end
 
-    context 'subclasses of DumbDelegator' do
-      subject(:dummy) { Class.new(DumbDelegator) { def foobar; end }.new([]) }
-
-      it 'respond to methods defined on the subclass' do
-        expect(dummy.respond_to?(:foobar)).to be true
+    context "subclasses of DumbDelegator" do
+      it "respond to methods defined on the subclass" do
+        expect(dummy).to respond_to(:target_method)
       end
     end
   end
 
-  describe '#__getobj__' do
-    it 'returns the target object' do
-      expect(dummy.__getobj__).to equal target
+  describe "#__getobj__" do
+    it "returns the target object" do
+      expect(dummy.__getobj__).to equal(target)
     end
   end
 
