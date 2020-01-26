@@ -15,16 +15,16 @@ class DumbDelegator < ::BasicObject
     __setobj__(target)
   end
 
-  def respond_to?(method, include_all=false)
-    __getobj__.respond_to?(method) || super
-  end
-
   def method_missing(method, *args, &block)
     if @__dumb_target__.respond_to?(method)
       @__dumb_target__.__send__(method, *args, &block)
     else
       super
     end
+  end
+
+  def respond_to_missing?(method, include_private = false)
+    __getobj__.respond_to?(method, include_private) || super
   end
 
   def __getobj__
