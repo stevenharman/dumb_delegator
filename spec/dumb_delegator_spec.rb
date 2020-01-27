@@ -199,6 +199,10 @@ RSpec.describe DumbDelegator do
   end
 
   describe "introspection capabilities" do
+    it "provides a human-friendly representation of the delegator and wrapped object" do
+      expect(dummy.inspect).to match(/#<Wrapper:\w+ obj: .+Target.+>/)
+    end
+
     it "reports methods defined on the target" do
       expect(dummy.methods).to include(:target_method, :common_method)
     end
