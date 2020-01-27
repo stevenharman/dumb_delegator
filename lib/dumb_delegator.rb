@@ -50,6 +50,10 @@ class DumbDelegator < ::BasicObject
     __setobj__(target)
   end
 
+  def inspect
+    "#<#{(class << self; self; end).superclass}:#{object_id} obj: #{__getobj__.inspect}>"
+  end
+
   def methods(all = true)
     __getobj__.methods(all) | super
   end
