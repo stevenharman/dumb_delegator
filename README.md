@@ -5,11 +5,10 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b684cbe08af745cbe957/maintainability)](https://codeclimate.com/github/stevenharman/dumb_delegator/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b684cbe08af745cbe957/test_coverage)](https://codeclimate.com/github/stevenharman/dumb_delegator/test_coverage)
 
-
 Ruby provides the `delegate` standard library.
 However, we found that it is not appropriate for cases that require nearly every call to be proxied.
 
-For instance, Rails uses `#class` and `#instance_of?` to introspect on model classes when generating forms and URL helpers.
+For instance, Rails uses `#class` and `#instance_of?` to introspect on Model classes when generating forms and URL helpers.
 These methods are not forwarded when using `Delegator` or `SimpleDelegator`.
 
 ```ruby
@@ -42,16 +41,30 @@ d.class                #=> MyAwesomeClass
 d.is_a? MyAwesomeClass #=> true
 ```
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem "dumb_delegator"
+```
+
+And then execute:
+
+```bash
+$ bundle
+```
+
+Or install it yourself as:
+
+```bash
+$ gem install dumb_delegator
+```
+
 ## Usage
 
-### Rails Model Decorator
-
-There are [many decorator implementations](http://robots.thoughtbot.com/post/14825364877/evaluating-alternative-decorator-implementations-in) in Ruby.
-One of the simplest is "`SimpleDelegator` + `super` + `__getobj__`," but it has the drawback of confusing Rails.
-It is necessary to redefine `#class`.
-We've also observed the need to redefine `#instance_of?` for URL helpers.
-
-With `DumbDelegator`, there's not a need for this hackery because nearly every possible method is delegated:
+`DumbDelegator`'s API and usage patters were inspired by Ruby stdlib's `SimpleDelegator`.
+As such, the usage and ergonomics are quite similar.
 
 ```ruby
 require "dumb_delegator"
@@ -79,16 +92,29 @@ class Sugar < DumbDelegator
 end
 
 coffee = Coffee.new
-Milk.new(coffee).origin           #=> Colombia
-Sugar.new(Sugar.new(coffee)).cost #=> 2.4
 
 cup_o_coffee = Sugar.new(Milk.new(coffee))
-cup_o_coffee.cost                 #=> 2.6
-cup_o_coffee.class                #=> Coffee
-cup_o_coffee.is_a?(Coffee)        #=> true
-cup_o_coffee.is_a?(Milk)          #=> true
-cup_o_coffee.is_a?(Sugar)         #=> true
+cup_o_coffee.origin        #=> Colombia
+cup_o_coffee.cost          #=> 2.6
+
+# Introspection
+cup_o_coffee.class         #=> Coffee
+cup_o_coffee.__getobj__    #=> #<Coffee:0x00007fabed1d6910>
+cup_o_coffee.inspect       #=> "#<Sugar:70188197507600 obj: #<Milk:70188197507620 obj: #<Coffee:0x00007fabed1d6910>>>"
+cup_o_coffee.is_a?(Coffee) #=> true
+cup_o_coffee.is_a?(Milk)   #=> true
+cup_o_coffee.is_a?(Sugar)  #=> true
 ```
+
+### Rails Model Decorator
+
+There are [many decorator implementations](http://robots.thoughtbot.com/post/14825364877/evaluating-alternative-decorator-implementations-in) in Ruby.
+One of the simplest is "`SimpleDelegator` + `super` + `__getobj__`," but it has the drawback of confusing Rails.
+It is necessary to redefine `#class`, at a minimum.
+If you're relying on Rails' URL Helpers with a delegated object, you also need to redefine `#instance_of?`.
+We've also observed the need to redefine other Rails-y methods to get various bits of 🧙 Rails Magic 🧙 to work as expected.
+
+With `DumbDelegator`, there's not a need for redefining these things because nearly every possible method is delegated.
 
 ### Optional `case` statement support
 
@@ -133,20 +159,6 @@ If necessary, you could also override the base `Module::===`, though that's pret
 ```ruby
 ::Module.extend(DumbDelegator::TripleEqualExt)
 ```
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem "dumb_delegator"
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install dumb_delegator
 
 ## Contributing
 
