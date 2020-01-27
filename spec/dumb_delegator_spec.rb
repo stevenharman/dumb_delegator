@@ -87,6 +87,10 @@ RSpec.describe DumbDelegator do
     end
   end
 
+  it "delegates #===" do
+    expect(dummy === target).to be true
+  end
+
   it "delegates class checks" do
     aggregate_failures do
       expect(dummy.is_a?(Target)).to be(true)
@@ -95,9 +99,26 @@ RSpec.describe DumbDelegator do
     end
   end
 
-  it "delegates ===" do
-    pending("Implement #=== on DumbDelegator")
-    expect(dummy === Target).to be true
+  it "does not delegate ::=== to the target's class" do
+    aggregate_failures do
+      expect(Target === dummy).to be false
+      expect(DumbDelegator === dummy).to be true
+    end
+  end
+
+  context "with a Module/Class's ::=== overridden via extension" do
+    let(:target) { TargetWithTripleEqualExt.new }
+
+    class TargetWithTripleEqualExt
+      extend DumbDelegator::TripleEqualExt
+    end
+
+    it "delegates ::=== to the target's class" do
+      aggregate_failures do
+        expect(TargetWithTripleEqualExt === dummy).to be true
+        expect(DumbDelegator === dummy).to be true
+      end
+    end
   end
 
   it "delegates instance_eval" do

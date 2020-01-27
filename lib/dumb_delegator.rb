@@ -1,5 +1,40 @@
+require "dumb_delegator/triple_equal_ext"
 require "dumb_delegator/version"
 
+##
+# @example
+# class Coffee
+#   def cost
+#     2
+#   end
+#
+#   def origin
+#     "Colombia"
+#   end
+# end
+#
+# class Milk < DumbDelegator
+#   def cost
+#     super + 0.4
+#   end
+# end
+#
+# class Sugar < DumbDelegator
+#   def cost
+#     super + 0.2
+#   end
+# end
+#
+# coffee = Coffee.new
+# Milk.new(coffee).origin           #=> Colombia
+# Sugar.new(Sugar.new(coffee)).cost #=> 2.4
+#
+# cup_o_coffee = Sugar.new(Milk.new(coffee))
+# cup_o_coffee.cost                 #=> 2.6
+# cup_o_coffee.class                #=> Coffee
+# cup_o_coffee.is_a?(Coffee)        #=> true
+# cup_o_coffee.is_a?(Milk)          #=> true
+# cup_o_coffee.is_a?(Sugar)         #=> true
 class DumbDelegator < ::BasicObject
   (::BasicObject.instance_methods - [:equal?, :__id__, :__send__, :method_missing]).each do |method|
     undef_method(method)
@@ -27,10 +62,12 @@ class DumbDelegator < ::BasicObject
     __getobj__.respond_to?(method, include_private) || super
   end
 
+  # @return [Object] The object calls are being delegated to
   def __getobj__
     @__dumb_target__
   end
 
+  # @param obj [Object] Change the object delegate to +obj+.
   def __setobj__(obj)
     raise ::ArgumentError, "Delegation to self is not allowed." if obj.__id__ == __id__
     @__dumb_target__ = obj
