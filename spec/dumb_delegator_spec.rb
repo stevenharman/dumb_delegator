@@ -197,4 +197,30 @@ RSpec.describe DumbDelegator do
       }.to raise_error(ArgumentError, "Delegation to self is not allowed.")
     end
   end
+
+  describe "introspection capabilities" do
+    it "reports methods defined on the target" do
+      expect(dummy.methods).to include(:target_method, :common_method)
+    end
+
+    it "reports methods defined on the wrapper" do
+      expect(dummy.methods).to include(:wrapper_method, :common_method)
+    end
+
+    it "looks up a named method on the target" do
+      method = dummy.method(:target_method)
+      aggregate_failures do
+        expect(method).not_to be_nil
+        expect(method.receiver).to eq(target)
+      end
+    end
+
+    it "looks up a named method on the wrapper" do
+      method = dummy.method(:wrapper_method)
+      aggregate_failures do
+        expect(method).not_to be_nil
+        expect(method.receiver).to equal(dummy)
+      end
+    end
+  end
 end

@@ -41,13 +41,17 @@ class DumbDelegator < ::BasicObject
   end
 
   kernel = ::Kernel.dup
-  (kernel.instance_methods - [:dup, :clone, :respond_to?, :object_id]).each do |method|
+  (kernel.instance_methods - [:dup, :clone, :method, :methods, :respond_to?, :object_id]).each do |method|
     kernel.__send__(:undef_method, method)
   end
   include kernel
 
   def initialize(target)
     __setobj__(target)
+  end
+
+  def methods(all = true)
+    __getobj__.methods(all) | super
   end
 
   def method_missing(method, *args, &block)
