@@ -10,10 +10,16 @@ Gem::Specification.new do |gem|
   gem.summary = "Delegator class that delegates ALL the things"
   gem.description = <<~EOD
     Delegator and SimpleDelegator in Ruby's stdlib are useful, but they pull in most of Kernel.
-    This is not appropriate for many uses; for instance, delegation to Rails models.
+    This is not appropriate for many uses; for instance, delegation to Rails Models.
     DumbDelegator, on the other hand, delegates nearly everything to the wrapped object.
   EOD
   gem.homepage = "https://github.com/stevenharman/dumb_delegator"
+
+  gem.metadata = {
+    "changelog_uri" => "https://github.com/stevenharman/dumb_delegator/blob/master/CHANGELOG.md",
+    "documentation_uri" => "https://rubydoc.info/gems/dumb_delegator",
+    "source_code_uri" => "https://github.com/stevenharman/dumb_delegator",
+  }
 
   gem.files = `git ls-files`.split($\)
   gem.test_files = gem.files.grep(%r{^(test|spec|features)/})
