@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.0.0] 2020-01-27
 ### Changed
   - Require Ruby >= 2.4. We may still work with older Rubies, but no promises.
   - Basic introspection support for a DumbDelegator instance: `#inspect`, `#method`, and `#methods`. [[13](https://github.com/stevenharman/dumb_delegator/pull/13)]
