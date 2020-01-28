@@ -61,6 +61,23 @@ Or install it yourself as:
 $ gem install dumb_delegator
 ```
 
+### Versioning
+
+This project adheres to [Semantic Versioning][semver].
+
+#### Version `0.8.x`
+
+The `0.8.0` release was downloaded 1.2MM times before the `1.0.0` work began.
+Which is great.
+But, we wanted to clean up some cruft, fix a few small things, and improve ergonomics.
+And do all of that, while, hopefully, not breaking existing usage.
+
+To that end, `1.0.0` dropped support for all [EoL'd Rubies][ruby-releases] and only officially supported Ruby `2.4` - `2.7` when it was released.
+However, most older Rubies, _should_ still work.
+Maybe… Shmaybe?
+Except for Ruby 1.9, which probably _does not work_ with `DumbDelegator` `> 1.0.0`.
+If you're on an EoL'd Ruby, please try the `0.8.x` versions of this gem.
+
 ## Usage
 
 `DumbDelegator`'s API and usage patters were inspired by Ruby stdlib's `SimpleDelegator`.
@@ -171,3 +188,7 @@ If necessary, you could also override the base `Module::===`, though that's pret
 ## Contribution Ideas/Needs
 
 1. Ruby 1.8 support (use the `blankslate` gem?)
+
+
+[ruby-releases]: https://www.ruby-lang.org/en/downloads/branches/ "The current maintenance status of the various Ruby branches"
+[semver]: https://semver.org/spec/v2.0.0.html "Semantic Versioning 2.0.0"

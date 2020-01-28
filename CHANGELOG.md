@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [Unreleased]
 ### Changed
   - Require Ruby >= 2.4. We may still work with older Rubies, but no promises.
+  - Basic introspection support for a DumbDelegator instance: `#inspect`, `#method`, and `#methods`. [[13](https://github.com/stevenharman/dumb_delegator/pull/13)]
 
 ### Added
-  - Basic introspection support for a DumbDelegator instance: `#inspect`, `#method`, and `#methods`. [[13](https://github.com/stevenharman/dumb_delegator/pull/13)]
   - Optional support for using a DumbDelegator instance in a `case` statement. [[12](https://github.com/stevenharman/dumb_delegator/pull/12)]
 
 ## [0.8.1] 2020-01-25
