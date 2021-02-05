@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ 2.4, 2.5, 2.6, 2.7, jruby ]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+    - name: Build and test with RSpec
+      run: bundle exec rake spec
+
+    - name: Publish code coverage
+      uses: paambaati/codeclimate-action@v2.7.5 # Locking to specific version b/c: https://github.com/paambaati/codeclimate-action/issues/142
