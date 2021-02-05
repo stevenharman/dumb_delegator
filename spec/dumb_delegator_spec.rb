@@ -2,7 +2,7 @@ RSpec.describe DumbDelegator do
   subject(:dummy) { Wrapper.new(target) }
   let(:target) { Target.new }
 
-  class Wrapper < DumbDelegator
+  class Wrapper < DumbDelegator # rubocop:disable Lint/ConstantDefinitionInBlock
     def wrapper_method
       "Method only on wrapper."
     end
@@ -12,7 +12,7 @@ RSpec.describe DumbDelegator do
     end
   end
 
-  class Target
+  class Target # rubocop:disable Lint/ConstantDefinitionInBlock
     def common_method
       "Method on target."
     end
@@ -109,7 +109,7 @@ RSpec.describe DumbDelegator do
   context "with a Module/Class's ::=== overridden via extension" do
     let(:target) { TargetWithTripleEqualExt.new }
 
-    class TargetWithTripleEqualExt
+    class TargetWithTripleEqualExt # rubocop:disable Lint/ConstantDefinitionInBlock
       extend DumbDelegator::TripleEqualExt
     end
 

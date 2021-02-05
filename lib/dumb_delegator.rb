@@ -84,7 +84,7 @@ class DumbDelegator < ::BasicObject
   def marshal_dump
     [
       :__v1__,
-      __getobj__,
+      __getobj__
     ]
   end
 

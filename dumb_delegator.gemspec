@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.metadata = {
     "changelog_uri" => "https://github.com/stevenharman/dumb_delegator/blob/master/CHANGELOG.md",
     "documentation_uri" => "https://rubydoc.info/gems/dumb_delegator",
-    "source_code_uri" => "https://github.com/stevenharman/dumb_delegator",
+    "source_code_uri" => "https://github.com/stevenharman/dumb_delegator"
   }
 
   gem.files = `git ls-files`.split($\)
