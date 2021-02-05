@@ -43,19 +43,19 @@ d.is_a? MyAwesomeClass #=> true
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your Gemfile:
 
 ```ruby
 gem "dumb_delegator"
 ```
 
-And then execute:
+And then install:
 
 ```bash
 $ bundle
 ```
 
-Or install it yourself as:
+Or install it yourself:
 
 ```bash
 $ gem install dumb_delegator
@@ -68,9 +68,9 @@ This project adheres to [Semantic Versioning][semver].
 #### Version `0.8.x`
 
 The `0.8.0` release was downloaded 1.2MM times before the `1.0.0` work began.
-Which is great.
+Which is great! 🎉
 But, we wanted to clean up some cruft, fix a few small things, and improve ergonomics.
-And do all of that, while, hopefully, not breaking existing usage.
+And we wanted to do all of that while, hopefully, not breaking existing usage.
 
 To that end, `1.0.0` dropped support for all [EoL'd Rubies][ruby-releases] and only officially supported Ruby `2.4` - `2.7` when it was released.
 However, most older Rubies, _should_ still work.
@@ -81,7 +81,7 @@ If you're on an EoL'd Ruby, please try the `0.8.x` versions of this gem.
 ## Usage
 
 `DumbDelegator`'s API and usage patters were inspired by Ruby stdlib's `SimpleDelegator`.
-As such, the usage and ergonomics are quite similar.
+So the usage and ergonomics are quite similar.
 
 ```ruby
 require "dumb_delegator"
