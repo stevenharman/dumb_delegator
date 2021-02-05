@@ -27,3 +27,4 @@ jobs:
 
     - name: Publish code coverage
       uses: paambaati/codeclimate-action@v2.7.5 # Locking to specific version b/c: https://github.com/paambaati/codeclimate-action/issues/142
+      if: matrix.ruby == '2.7' # Ruby 2.4 breaks the CC uploader. Also, we only need to upload one report. 
