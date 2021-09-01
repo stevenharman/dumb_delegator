@@ -1,7 +1,7 @@
 # DumbDelegator
 
 [![Gem Version](https://badge.fury.io/rb/dumb_delegator.svg)](https://badge.fury.io/rb/dumb_delegator)
-![CI](https://github.com/stevenharman/dumb_delegator/workflows/CI/badge.svg)
+[![CI](https://github.com/stevenharman/dumb_delegator/actions/workflows/ci.yml/badge.svg)](https://github.com/stevenharman/dumb_delegator/actions/workflows/ci.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b684cbe08af745cbe957/maintainability)](https://codeclimate.com/github/stevenharman/dumb_delegator/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b684cbe08af745cbe957/test_coverage)](https://codeclimate.com/github/stevenharman/dumb_delegator/test_coverage)
 
