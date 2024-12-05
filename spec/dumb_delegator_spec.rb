@@ -1,6 +1,7 @@
 RSpec.describe DumbDelegator do
   subject(:dummy) { Wrapper.new(target) }
   let(:target) { Target.new }
+  let(:lazy) { LazyDelegator.new { target } }
 
   class Wrapper < DumbDelegator # rubocop:disable Lint/ConstantDefinitionInBlock
     def wrapper_method
@@ -9,6 +10,16 @@ RSpec.describe DumbDelegator do
 
     def common_method
       ["Method on wrapper.", super].join(" ")
+    end
+  end
+
+  class LazyDelegator < DumbDelegator
+    def initialize(&block)
+      @block = block
+    end
+
+    def __getobj__
+      @__dumb_target__ ||= @block.call
     end
   end
 
@@ -32,6 +43,10 @@ RSpec.describe DumbDelegator do
 
   it "delegates to the target object" do
     expect(dummy.target_method).to eq("Method only on target.")
+  end
+
+  it "delegates to the target object when subclasses override __getobj__" do
+    expect(lazy.target_method).to eq("Method only on target.")
   end
 
   it "delegates to the target object with arguments" do

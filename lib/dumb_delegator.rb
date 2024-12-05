@@ -59,8 +59,8 @@ class DumbDelegator < ::BasicObject
   end
 
   def method_missing(method, *args, &block)
-    if @__dumb_target__.respond_to?(method)
-      @__dumb_target__.__send__(method, *args, &block)
+    if __getobj__.respond_to?(method)
+      __getobj__.__send__(method, *args, &block)
     else
       super
     end
