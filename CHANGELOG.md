@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.1.0] 2024-12-17
+### Changed
+  - Use `__getobj__` to be compatible with the `Delegator` "interface." [@cervantn [14](https://github.com/stevenharman/dumb_delegator/pull/14)]
+
 ## [1.0.0] 2020-01-27
 ### Changed
   - Require Ruby >= 2.4. We may still work with older Rubies, but no promises.
