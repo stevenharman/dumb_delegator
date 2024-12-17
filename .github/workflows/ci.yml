@@ -6,8 +6,10 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: ${{matrix.experimental}}
     env:
       CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+      JRUBY_OPTS: '-X+O'
 
     strategy:
       fail-fast: false
@@ -23,7 +25,12 @@ jobs:
           - 3.3
           - jruby
           - truffleruby
-
+        experimental: [false]
+        include:
+          - ruby: jruby-head
+            experimental: true
+          - ruby: head
+            experimental: true
 
     steps:
     - uses: actions/checkout@v4
