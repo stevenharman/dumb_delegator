@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DumbDelegator < ::BasicObject
   ##
   # This optional extension enables a Class/Module to support +case+ statements.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "dumb_delegator/triple_equal_ext"
 require "dumb_delegator/version"
 
